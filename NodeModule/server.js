@@ -1,28 +1,27 @@
-const express = require('express');
+const express = require('express')
 const app = express();
-const db=  require('./db.js');
-const bodyParser = require('body-parser');
-app.use(bodyParser.json());
-app.get('/', function (req, res)  {
-  res.send('Hello welcome to my server!')
+const db = require('./db');
+
+require('dotenv').config();
+
+const bodyParser = require('body-parser'); 
+app.use(bodyParser.json()); // req.body
+const PORT = process.env.PORT || 3000;
+
+// Middleware Function
+
+app.get('/', function (req, res) {
+    res.send('Welcome to our Hotel');
 })
 
+// Import the router files
+const personRoutes = require('./Routes/personRoutes');
+const menuRoutes = require('./Routes/MenuRoutes');
 
-// import the router files
-const personRoutes = require('./routes/personRoutes.js');
-const menuRoutes = require('./routes/MenuRoutes.js');
-
-// Use the person routes 
+// Use the routers
 app.use('/person', personRoutes);
 app.use('/menu', menuRoutes);
-
-
-
-
-
-app.listen(3000 , () => {
-  console.log('Server is running on port 3000');
+  
+app.listen(PORT, ()=>{
+    console.log('listening on port 3000');
 })
-
-
-
